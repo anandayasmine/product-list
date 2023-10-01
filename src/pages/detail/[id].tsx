@@ -15,6 +15,7 @@ import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import Link from 'next/link';
+import { MainLayout } from '@/app/components';
 
 interface dataType {
   id: Number,
@@ -31,14 +32,14 @@ interface dataType {
 }
 
 export default function CardFunction(props: any) {
-  
+
   const [data, setData] = React.useState<dataType>()
 
   React.useEffect(() => {
 
     try {
 
-      const id:string = window.location.pathname.split('/')[2]
+      const id: string = window.location.pathname.split('/')[2]
 
       // @ts-ignore
       let fetchData = JSON.parse(localStorage.getItem(id) || "")
@@ -56,36 +57,38 @@ export default function CardFunction(props: any) {
 
 
   return (
-    <Card className='main-content'>
-      <CardHeader
-        title={data?.title}
-        subheader={data?.brand}
-        avatar={
-          <Link href='/'>
-            <IconButton aria-label="back" >
-              <ArrowBackIosIcon />
-            </IconButton>
-          </Link>
-        }
-      />
-      <div className='wrap-card-media grid-row'>
-        {
-          data?.images?.map((item, index) =>
-            <CardMedia
-              key={'data-image-' + index}
-              component="img"
-              height="194"
-              image={item}
-              alt={data?.title + ' ' + index}
-            />
-          )
-        }
-      </div>
-      <CardContent>
-        <Typography variant="body2" color="text.secondary">
-          {data?.description}
-        </Typography>
-      </CardContent>
-    </Card>
-  );
+    <MainLayout>
+      <Card className='main-content'>
+        <CardHeader
+          title={data?.title}
+          subheader={data?.brand}
+          avatar={
+            <Link href='/'>
+              <IconButton aria-label="back" >
+                <ArrowBackIosIcon />
+              </IconButton>
+            </Link>
+          }
+        />
+        <div className='wrap-card-media grid-row'>
+          {
+            data?.images?.map((item, index) =>
+              <CardMedia
+                key={'data-image-' + index}
+                component="img"
+                height="194"
+                image={item}
+                alt={data?.title + ' ' + index}
+              />
+            )
+          }
+        </div>
+        <CardContent>
+          <Typography variant="body2" color="text.secondary">
+            {data?.description}
+          </Typography>
+        </CardContent>
+      </Card>
+    </MainLayout>
+  )
 }
